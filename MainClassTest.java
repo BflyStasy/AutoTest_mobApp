@@ -1,11 +1,13 @@
 import org.junit.Assert;
 import org.junit.Test;
 
+import static com.sun.javafx.util.Utils.contains;
+
 public class MainClassTest extends MainClass
 {
     @Test
-    public void testGetClassNumber()
+    public void testGetClassString()
     {
-        Assert.assertTrue("Метод getClassNumber() возвращает значение меньше 45",this.getClassNumber() > 45);
+        Assert.assertTrue("Слово 'Hello'/'hello' не является подстрокой",contains(this.getClassString(),"Hello")||contains(this.getClassString(),"hello"));
     }
 }
