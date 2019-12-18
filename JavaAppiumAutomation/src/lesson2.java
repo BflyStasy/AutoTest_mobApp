@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.List;
 
 public class lesson2 {
     private AppiumDriver driver;
@@ -94,5 +95,17 @@ public class lesson2 {
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         element.clear();
         return element;
+    }
+    private List<WebElement> waitForElementsPresent(By by, String error_message, long timeoutInSeconds)
+    {
+        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+        wait.withMessage(error_message + "\n");
+        return wait.until(
+                ExpectedConditions.presenceOfAllElementsLocatedBy(by));
+    }
+    private void moreThenOneElement(By by, String error_message1,String error_message2, long timeoutInSeconds)
+    {
+        List<WebElement> elements = waitForElementsPresent(by, error_message1, timeoutInSeconds);
+        Assert.assertTrue(error_message2, elements.size()>1);
     }
 }
