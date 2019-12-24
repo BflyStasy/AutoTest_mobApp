@@ -36,7 +36,7 @@ public class lesson2 {
     }
 
     @Test
-    public void testFindSearch()
+    public void testFindWordInSearchResult()
     {
         waitForElementAndClick(
                 By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
@@ -47,16 +47,19 @@ public class lesson2 {
                 By.id("org.wikipedia:id/search_container"),
                 "cannot find 'Search Wikipedia'",
                 7);
-        WebElement title_element = waitForElementPresent(
-                By.id("org.wikipedia:id/search_src_text"),
-                "cannot find article title",
-                5);
-        String article_title = title_element.getAttribute("text");
-        Assert.assertEquals(
-                "We see unexpected title",
-                "Search Wikipedia",
-                article_title);
 
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Java",
+                "cannot find search input",
+                15);
+
+        findWorldInTitle(
+                By.id("org.wikipedia:id/page_list_item_title"),
+                "Don't have any result of search",
+                "Сannot find the text ",
+                "Java",
+                5);
     }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
@@ -107,5 +110,22 @@ public class lesson2 {
     {
         List<WebElement> elements = waitForElementsPresent(by, error_message1, timeoutInSeconds);
         Assert.assertTrue(error_message2, elements.size()>1);
+    }
+
+    private void findWorldInTitle (By by, String error_message1, String error_message2, String text, long timeoutInSeconds)
+    {
+        List<WebElement> elements = waitForElementsPresent(
+                by,
+                error_message1,
+                timeoutInSeconds);
+        int count = 0;
+        do{
+            Assert.assertTrue(
+                    error_message2 + ": '"+text + "'. (line number - " + (count+1) + ")",
+                    elements.get(count).getAttribute("text").contains(text)
+            );
+            count++;
+        }
+        while (count < elements.size());
     }
 }
