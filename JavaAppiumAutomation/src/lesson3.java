@@ -159,6 +159,37 @@ public class lesson3 {
                 15);
     }
 
+    @Test
+    public void openArticleAndFindTitle()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[@text='SKIP']"),
+                "cannot find button SKIP",
+                7);
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "cannot find 'Search Wikipedia'",
+                7);
+        String search_line = "Java";
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                search_line,
+                "Cannot find search input",
+                10);
+        String article_title = "Java (programming language)";
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'" + article_title +"')]"),
+                "Cannot find '" + article_title +"' topic searching by '" + search_line +"'",
+                15);
+        String search_result_locator ="//*[@resource-id='content']/*[@class='android.view.View']";
+        String attribute = "text";
+        assertElementPresent(
+                By.xpath(search_result_locator),
+                "Cannot open article",
+                "Cannot find title article",
+                attribute);
+
+    }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
     {
@@ -170,7 +201,7 @@ public class lesson3 {
     }
     private WebElement waitForElementAndClick(By by, String error_message, long timeoutInSeconds)
     {
-        WebElement element = waitForElementPresent(by, error_message, 10);
+        WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         element.click();
         return element;
     }
@@ -203,5 +234,12 @@ public class lesson3 {
         return wait.until(
                 ExpectedConditions.invisibilityOfElementLocated(by));
     }
+
+    private void assertElementPresent(By by, String error_message1, String error_message2, String attribute)
+    {
+        WebElement element = waitForElementPresent(by, error_message1, 5 );
+        Assert.assertTrue(error_message2, element.getAttribute(attribute) != null);
+    }
+
 }
 
