@@ -62,4 +62,47 @@ public class SearchTests extends CoreTestCase
         SearchPageObject.waitForEmptyResultsLabel();
         SearchPageObject.assertThereIsNoResultOfSearch();
     }
+    @Test
+    public void testFindSearch() //Lesson 2, Ex.2
+    {
+        NavigationUI NavigationUI = new NavigationUI(driver);
+        NavigationUI.clickButtonUseText("SKIP");
+
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject.initSearchInput();
+        String article_title = SearchPageObject.getTitleSearchField();
+        assertEquals(
+                "We see unexpected title",
+                "Search Wikipedia",
+                article_title);
+
+    }
+    @Test
+    public void testCancelSearch() //Lesson 2, Ex.3
+    {
+        NavigationUI NavigationUI = new NavigationUI(driver);
+        NavigationUI.clickButtonUseText("SKIP");
+
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine("Java");
+        SearchPageObject.waitForListResult();
+
+        SearchPageObject.waitForCancelButtonToAppear();
+        SearchPageObject.clickCancelSearch();
+        SearchPageObject.waitForNotPresentListResult();
+    }
+    @Test
+    public void testFindWordInSearchResult() //Lesson 2, Ex.4
+    {
+        NavigationUI NavigationUI = new NavigationUI(driver);
+        NavigationUI.clickButtonUseText("SKIP");
+
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject.initSearchInput();
+        String search_line = "Java";
+        SearchPageObject.typeSearchLine(search_line);
+        SearchPageObject.findTextInTitleArticle(search_line);
+
+    }
 }
