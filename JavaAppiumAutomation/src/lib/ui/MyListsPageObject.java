@@ -64,7 +64,7 @@ public class MyListsPageObject extends MainPageObject
     public void openArticleFromMyList(String article_title)
     {
         this.waitForArticleToAppearByTitle(article_title);
-        String article_xpath = this.getSavedArticleXpathByTitle(article_title);
+        String article_xpath = getSavedArticleXpathByTitle(article_title);
         this.waitForElementAndClick(
                 By.xpath(article_xpath),
                 "Cannot find saved article: " + article_title,

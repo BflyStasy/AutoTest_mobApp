@@ -16,7 +16,7 @@ public class ArticlePageObject extends MainPageObject
             MY_LIST_NEW_INPUT = "org.wikipedia:id/text_input",
             MY_LIST_OK_BUTTON = "//*[@text='OK']",
             CLOSE_ARTICLE ="//*[@content-desc='Navigate up']",
-            LOCATOR_PAGE = "//*[@resource-id='content']/*[@class='android.view.View']";
+            LOCATOR_PAGE = "//*[@resource-id='content']";
 
     public ArticlePageObject(AppiumDriver driver) {
         super(driver);

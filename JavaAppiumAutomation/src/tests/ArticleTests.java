@@ -43,4 +43,22 @@ public class ArticleTests extends CoreTestCase
         ArticlePageObject.waitForTitleUseXpath("Appium");
         ArticlePageObject.swipeToFooter();
     }
+    @Test
+    public void testOpenArticleAndFindTitle() //Lesson 3 Ex.6
+    {
+        NavigationUI NavigationUI = new NavigationUI(driver);
+        NavigationUI.clickButtonUseText("SKIP");
+
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject.initSearchInput();
+        String search_line = "Java";
+        SearchPageObject.typeSearchLine(search_line);
+
+        String article_title = "Java (programming language)";
+        SearchPageObject.clickByArticleWithSubstring(article_title);
+
+        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject.findArticleAttributeByXpath("text");
+    }
+
 }
