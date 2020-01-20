@@ -21,15 +21,15 @@ public class ChangeAppConditionTests extends CoreTestCase
         SearchPageObject.clickByArticleWithSubstring("Java (programming language)");
 
         ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
-        String title_before_rotation = ArticlePageObject.getArticleTitle();
+        String title_before_rotation = ArticlePageObject.getArticleTitleUseXpath("Object-oriented programming language");
         this.rotateScreenLandscape();
-        String title_after_rotation = ArticlePageObject.getArticleTitle();
+        String title_after_rotation = ArticlePageObject.getArticleTitleUseXpath("Object-oriented programming language");
         assertEquals(
                 "Article title has been changed after screen rotation\ntitle befor: " + title_before_rotation + "\ntitle after: " + title_after_rotation,
                 title_before_rotation,
                 title_after_rotation );
         this.rotateScreenPortrait();
-        String title_after_second_rotation = ArticlePageObject.getArticleTitle();
+        String title_after_second_rotation = ArticlePageObject.getArticleTitleUseXpath("Object-oriented programming language");
         assertEquals(
                 "Article title has been changed after second screen rotation\ntitle befor:" + title_before_rotation + "\ntitle after second: " + title_after_second_rotation,
                 title_before_rotation,
@@ -49,16 +49,16 @@ public class ChangeAppConditionTests extends CoreTestCase
         SearchPageObject.clickByArticleWithSubstring("Java (programming language)");
 
         ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
-        String article_title = ArticlePageObject.getArticleTitle();
+        String article_title = ArticlePageObject.getArticleTitleUseXpath("Object-oriented programming language");
         assertEquals(
                 "We see unexpected title",
-                "Object-oriented programming language",
+                "pagelib_edit_section_title_description",
                 article_title);
         this.backgroundApp(2);
-        article_title = ArticlePageObject.getArticleTitle();
+        article_title = ArticlePageObject.getArticleTitleUseXpath("Object-oriented programming language");
         assertEquals(
                 "We see unexpected title after return background",
-                "Object-oriented programming language",
+                "pagelib_edit_section_title_description",
                 article_title);
 
     }
