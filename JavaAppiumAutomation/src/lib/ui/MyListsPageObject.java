@@ -51,16 +51,16 @@ abstract public class MyListsPageObject extends MainPageObject
         String article_xpath = getSavedArticleXpathByTitle(article_title);
         this.swipeElementToLeft(article_xpath, "Cannot find saved article: " + article_title);
         if(Platform.getInstance().isIos()){
-            this.clickElementToTheRightUpperCorner(article_title, "Cannot find saved article: " + article_title);
+            this.clickElementToTheRightUpperCorner(article_xpath, "Cannot find saved article: " + article_title);
         }
         this.waitForArticleToDisappearByTitle(article_title);
     }
     public void openArticleFromMyList(String article_title)
     {
-        this.waitForArticleToAppearByTitle(article_title);
-        String article_xpath = getSavedArticleXpathByTitle(article_title);
-        this.waitForElementAndClick(article_xpath, "Cannot find saved article: " + article_title, 15 );
-        String article = getArticleTitleXpath(article_title);
-        this.waitForElementPresent(article, "Cannot find article title: " + article_title, 15);
+            this.waitForArticleToAppearByTitle(article_title);
+            String article_xpath = getSavedArticleXpathByTitle(article_title);
+            this.waitForElementAndClick(article_xpath, "Cannot find saved article: " + article_title, 15);
+            String article = getArticleTitleXpath(article_title);
+            this.waitForElementPresent(article, "Cannot find article title: " + article_title, 15);
     }
 }

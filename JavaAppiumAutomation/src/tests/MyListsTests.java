@@ -47,6 +47,7 @@ public class MyListsTests extends CoreTestCase
             ArticlePageObject.addArticleToMyList(name_of_folder);
         } else {
             ArticlePageObject.addArticleToMySaved();
+            NavigationUI.clickButtonUseText("places auth close");
         }
         ArticlePageObject.closeArticle();
 
@@ -65,16 +66,18 @@ public class MyListsTests extends CoreTestCase
     public void testSaveTwoArticlesToListAndDeleteOneArticle() //Lesson 3 Ex.5
     {
         String search_line = "Java";
-        String article_title1; //первая статья для добавления в список
-        String article_title2; //вторая статья для добавления в список
+        String article_title1;  //первая статья для добавления в список
+        String article_title2 ; //вторая статья для добавления в список
+        String title1 = "Java (programming language)";
+        String title2 = "JavaScript";
         String button_skip;
         if(Platform.getInstance().isAndroid()){
+            button_skip = "SKIP";
             article_title1 = "Java (programming language)";
             article_title2 = "JavaScript";
-            button_skip = "SKIP";
         }else{
             article_title1 = "Java (programming language)\nObject-oriented programming language";
-            article_title2 = "JavaScript";
+            article_title2 = "JavaScript\nProgramming language";
             button_skip = "Skip";
         }
 
@@ -88,24 +91,32 @@ public class MyListsTests extends CoreTestCase
         SearchPageObject.clickByArticleWithSubstring(article_title1);
 
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
-        ArticlePageObject.waitForTitleElement();
+
         if(Platform.getInstance().isAndroid()) {
+            ArticlePageObject.waitForTitleElement();
             ArticlePageObject.addArticleToMyList(name_of_folder);
         } else {
+            ArticlePageObject.waitForTitleUseXpath(title1);
             ArticlePageObject.addArticleToMySaved();
+            NavigationUI.clickButtonUseText("places auth close");
         }
         ArticlePageObject.closeArticle();
         if(Platform.getInstance().isAndroid()) {
             NavigationUI.clickButtonUseText("NO THANKS");
         }
         SearchPageObject.initSearchInput();
-        SearchPageObject.typeSearchLine(search_line);
+
+        if(Platform.getInstance().isAndroid()){
+            SearchPageObject.typeSearchLine(search_line);
+        }
 
         SearchPageObject.clickByArticleWithSubstring(article_title2);
-        ArticlePageObject.waitForTitleElement();
+
         if(Platform.getInstance().isAndroid()) {
+            ArticlePageObject.waitForTitleElement();
             ArticlePageObject.addArticleToMyExistingList(name_of_folder);
         } else {
+            ArticlePageObject.waitForTitleUseXpath(title2);
             ArticlePageObject.addArticleToMySaved();
         }
         ArticlePageObject.closeArticle();
@@ -113,15 +124,15 @@ public class MyListsTests extends CoreTestCase
         if(Platform.getInstance().isAndroid()) {
             NavigationUI.clickButtonUseText("NO THANKS");
         }
+
         NavigationUI.clickMyLists();
 
         MyListsPageObject MyListPageObject = MyListsPageObjectFactory.get(driver);
+
         if(Platform.getInstance().isAndroid()){
             MyListPageObject.openFolderByName(name_of_folder);
         }
         MyListPageObject.swipeByArticleToDelete(article_title1);
-
-        //MyListPageObject.waitForArticleToAppearByTitle(name_of_folder);
         MyListPageObject.openArticleFromMyList(article_title2);
     }
 

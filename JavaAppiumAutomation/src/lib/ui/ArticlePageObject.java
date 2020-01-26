@@ -27,6 +27,7 @@ abstract public class ArticlePageObject extends MainPageObject
     {
         return TITLE_TEXT_TPL.replace("{SUBSTRING}", substring);
     }
+
     /*TEMPLATES METHODS*/
     public WebElement waitForTitleElement()
     {
@@ -71,7 +72,7 @@ abstract public class ArticlePageObject extends MainPageObject
     public void addArticleToMySaved()
     {
         this.waitForElementAndClick(MENU_BOOKMARK, "Cannot find button 'Save for later'",15);
-        this.waitForElementAndClick(BUTTON_CLOSE, "Cannot find button 'places auth close'",10);
+        //this.waitForElementAndClick(BUTTON_CLOSE, "Cannot find button 'places auth close'",10);
     }
     public void closeArticle()
     {
