@@ -1,13 +1,14 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 
-public class MyListsPageObject extends MainPageObject
+abstract public class MyListsPageObject extends MainPageObject
 {
-    private static final String
-            FOLDER_BY_NAME_TPL = "xpath://*[@resource-id='org.wikipedia:id/reading_list_list']/*[@class='android.view.ViewGroup']/*[@text='{FOLDER_NAME}']",
-            ARTICLE_BY_TITLE_TPL = "xpath://*[@class='android.view.ViewGroup']/*[@text='{TITLE}']",
-            ARTICLE_TEXT_TPL = "xpath://*[contains(@text,'{TITLE}')]";
+    protected static String
+            FOLDER_BY_NAME_TPL,
+            ARTICLE_BY_TITLE_TPL,
+            ARTICLE_TEXT_TPL;
     public MyListsPageObject(AppiumDriver driver) {
         super(driver);
     }
@@ -49,6 +50,9 @@ public class MyListsPageObject extends MainPageObject
         this.waitForArticleToAppearByTitle(article_title);
         String article_xpath = getSavedArticleXpathByTitle(article_title);
         this.swipeElementToLeft(article_xpath, "Cannot find saved article: " + article_title);
+        if(Platform.getInstance().isIos()){
+            this.clickElementToTheRightUpperCorner(article_title, "Cannot find saved article: " + article_title);
+        }
         this.waitForArticleToDisappearByTitle(article_title);
     }
     public void openArticleFromMyList(String article_title)

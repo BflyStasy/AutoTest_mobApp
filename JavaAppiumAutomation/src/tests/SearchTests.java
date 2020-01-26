@@ -1,8 +1,11 @@
 package tests;
 
 import lib.CoreTestCase;
+import lib.Platform;
 import lib.ui.NavigationUI;
 import lib.ui.SearchPageObject;
+import lib.ui.factrories.NavigationUIFactory;
+import lib.ui.factrories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class SearchTests extends CoreTestCase
@@ -10,10 +13,16 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testSearch() //Lesson 2
     {
-        NavigationUI NavigationUI = new NavigationUI(driver);
-        NavigationUI.clickButtonUseText("SKIP");
+        String button_skip;
+        if(Platform.getInstance().isAndroid()){
+            button_skip = "SKIP";
+        }else{
+            button_skip = "Skip";
+        }
+        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+        NavigationUI.clickButtonUseText(button_skip);
 
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
         SearchPageObject.waitForSearchResult("Object-oriented programming language");
@@ -21,10 +30,16 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testCancelSearch_simple() //Lesson 2
     {
-        NavigationUI NavigationUI = new NavigationUI(driver);
-        NavigationUI.clickButtonUseText("SKIP");
+        String button_skip;
+        if(Platform.getInstance().isAndroid()){
+            button_skip = "SKIP";
+        }else{
+            button_skip = "Skip";
+        }
+        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+        NavigationUI.clickButtonUseText(button_skip);
 
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
         SearchPageObject.clearSearchInput();
@@ -37,10 +52,16 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testAmountOfNotEmptySearch() //Lesson 3
     {
-        NavigationUI NavigationUI = new NavigationUI(driver);
-        NavigationUI.clickButtonUseText("SKIP");
+        String button_skip;
+        if(Platform.getInstance().isAndroid()){
+            button_skip = "SKIP";
+        }else{
+            button_skip = "Skip";
+        }
+        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+        NavigationUI.clickButtonUseText(button_skip);
 
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         SearchPageObject.initSearchInput();
         String search_line = "Linkin Park Discography";
         SearchPageObject.typeSearchLine(search_line);
@@ -52,10 +73,16 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testAmountOfEmptySearch() //Lesson 3
     {
-        NavigationUI NavigationUI = new NavigationUI(driver);
-        NavigationUI.clickButtonUseText("SKIP");
+        String button_skip;
+        if(Platform.getInstance().isAndroid()){
+            button_skip = "SKIP";
+        }else{
+            button_skip = "Skip";
+        }
+        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+        NavigationUI.clickButtonUseText(button_skip);
 
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         SearchPageObject.initSearchInput();
         String search_line = "tdgckzbdhkf";
         SearchPageObject.typeSearchLine(search_line);
@@ -65,10 +92,16 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testFindSearch() //Lesson 2, Ex.2
     {
-        NavigationUI NavigationUI = new NavigationUI(driver);
-        NavigationUI.clickButtonUseText("SKIP");
+        String button_skip;
+        if(Platform.getInstance().isAndroid()){
+            button_skip = "SKIP";
+        }else{
+            button_skip = "Skip";
+        }
+        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+        NavigationUI.clickButtonUseText(button_skip);
 
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         SearchPageObject.initSearchInput();
         String article_title = SearchPageObject.getTitleSearchField();
         assertEquals(
@@ -80,10 +113,16 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testCancelSearch() //Lesson 2, Ex.3
     {
-        NavigationUI NavigationUI = new NavigationUI(driver);
-        NavigationUI.clickButtonUseText("SKIP");
+        String button_skip;
+        if(Platform.getInstance().isAndroid()){
+            button_skip = "SKIP";
+        }else{
+            button_skip = "Skip";
+        }
+        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+        NavigationUI.clickButtonUseText(button_skip);
 
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
         SearchPageObject.waitForListResult();
@@ -95,10 +134,16 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testFindWordInSearchResult() //Lesson 2, Ex.4
     {
-        NavigationUI NavigationUI = new NavigationUI(driver);
-        NavigationUI.clickButtonUseText("SKIP");
+        String button_skip;
+        if(Platform.getInstance().isAndroid()){
+            button_skip = "SKIP";
+        }else{
+            button_skip = "Skip";
+        }
+        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+        NavigationUI.clickButtonUseText(button_skip);
 
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         SearchPageObject.initSearchInput();
         String search_line = "Java";
         SearchPageObject.typeSearchLine(search_line);

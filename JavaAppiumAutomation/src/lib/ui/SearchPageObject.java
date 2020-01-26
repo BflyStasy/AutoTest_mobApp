@@ -3,16 +3,16 @@ package lib.ui;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.WebElement;
 
-public class SearchPageObject extends MainPageObject{
-    private static final String
-        SEARCH_INIT_ELEMENT = "xpath://*[contains(@text,'Search Wikipedia')]",
-        SEARCH_INPUT = "xpath://*[contains(@text,'Search Wikipedia')]",
-        SEARCH_RESULT_BY_SUBSTRING_TPL ="xpath://*[@class='android.view.ViewGroup']/*[@text='{SUBSTRING}']",
-        SEARCH_CANCEL_BUTTON = "id:org.wikipedia:id/search_close_btn",
-        SEARCH_RESULT_ELEMENT = "xpath://*[@resource-id='org.wikipedia:id/search_results_list']/*[@class='android.view.ViewGroup']",
-        SEARCH_EMPTY_RESULT_ELEMENT = "xpath://*[@text='No results found']",
-        SEARCH_INPUT_ID = "xpath:org.wikipedia:id/search_src_text",
-        SEARCH_LIST_RESULT = "id:org.wikipedia:id/page_list_item_title";
+abstract public class SearchPageObject extends MainPageObject{
+    protected static String
+        SEARCH_INIT_ELEMENT,
+        SEARCH_INPUT,
+        SEARCH_RESULT_BY_SUBSTRING_TPL,
+        SEARCH_CANCEL_BUTTON,
+        SEARCH_RESULT_ELEMENT,
+        SEARCH_EMPTY_RESULT_ELEMENT,
+        SEARCH_INPUT_ID,
+        SEARCH_LIST_RESULT;
     public SearchPageObject(AppiumDriver driver)
     {
         super(driver);
@@ -54,7 +54,7 @@ public class SearchPageObject extends MainPageObject{
     public void clickByArticleWithSubstring(String substring)
     {
         String search_result_xpath = getResultSearchElement(substring);
-        this.waitForElementAndClick(search_result_xpath,"Cannot find anf click search result with substring: " + substring, 15);
+        this.waitForElementAndClick(search_result_xpath,"Cannot find anf click search result with substring: " + substring, 20);
     }
 
     public int getAmountOfFoundArticles()

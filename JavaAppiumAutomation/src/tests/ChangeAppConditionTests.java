@@ -1,9 +1,13 @@
 package tests;
 
 import lib.CoreTestCase;
+import lib.Platform;
 import lib.ui.ArticlePageObject;
 import lib.ui.NavigationUI;
 import lib.ui.SearchPageObject;
+import lib.ui.factrories.ArticlePageObjectFactory;
+import lib.ui.factrories.NavigationUIFactory;
+import lib.ui.factrories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class ChangeAppConditionTests extends CoreTestCase
@@ -11,16 +15,22 @@ public class ChangeAppConditionTests extends CoreTestCase
     @Test
     public void testChangeScreenOrientationOnSearchResults() //Lesson 3
     {
-        NavigationUI NavigationUI = new NavigationUI(driver);
-        NavigationUI.clickButtonUseText("SKIP");
+        String button_skip;
+        if(Platform.getInstance().isAndroid()){
+            button_skip = "SKIP";
+        }else{
+            button_skip = "Skip";
+        }
+        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+        NavigationUI.clickButtonUseText(button_skip);
 
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         SearchPageObject.initSearchInput();
         String search_line = "Java";
         SearchPageObject.typeSearchLine(search_line);
         SearchPageObject.clickByArticleWithSubstring("Java (programming language)");
 
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         String title_before_rotation = ArticlePageObject.getArticleTitleUseXpath("Object-oriented programming language");
         this.rotateScreenLandscape();
         String title_after_rotation = ArticlePageObject.getArticleTitleUseXpath("Object-oriented programming language");
@@ -39,16 +49,22 @@ public class ChangeAppConditionTests extends CoreTestCase
     @Test
     public void testCheckArticleInBackground() //Lesson 3
     {
-        NavigationUI NavigationUI = new NavigationUI(driver);
-        NavigationUI.clickButtonUseText("SKIP");
+        String button_skip;
+        if(Platform.getInstance().isAndroid()){
+            button_skip = "SKIP";
+        }else{
+            button_skip = "Skip";
+        }
+        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+        NavigationUI.clickButtonUseText(button_skip);
 
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         SearchPageObject.initSearchInput();
         String search_line = "Java";
         SearchPageObject.typeSearchLine(search_line);
         SearchPageObject.clickByArticleWithSubstring("Java (programming language)");
 
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         String article_title = ArticlePageObject.getArticleTitleUseXpath("Object-oriented programming language");
         assertEquals(
                 "We see unexpected title",

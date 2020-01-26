@@ -2,11 +2,11 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 
-public class NavigationUI extends MainPageObject
+abstract public class NavigationUI extends MainPageObject
 {
-    private static final String
-            BUTTON_TEXT_TPL = "xpath://*[@text='{BUTTON_NAME}']",
-            MY_LISTS_LINK = "xpath://*[@content-desc='My lists']";
+    protected static String
+            BUTTON_TEXT_TPL,
+            MY_LISTS_LINK;
 
     public NavigationUI(AppiumDriver driver) {
         super(driver);
@@ -20,8 +20,8 @@ public class NavigationUI extends MainPageObject
 
     public void clickButtonUseText(String name_of_button)
     {
-        String button_xpath = getTitleButton(name_of_button);
-        this.waitForElementAndClick(button_xpath, "Cannot find button: " + name_of_button, 10);
+        String button = getTitleButton(name_of_button);
+        this.waitForElementAndClick(button, "Cannot find button: " + name_of_button, 10);
     }
 
     public void clickMyLists()
