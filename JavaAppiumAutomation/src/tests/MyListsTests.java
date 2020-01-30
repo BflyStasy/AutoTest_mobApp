@@ -112,7 +112,6 @@ public class MyListsTests extends CoreTestCase
             article_title2 = "JavaScript";
         }
 
-
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine(search_line);
@@ -128,14 +127,32 @@ public class MyListsTests extends CoreTestCase
             ArticlePageObject.waitForTitleUseXpath(title1);
             ArticlePageObject.addArticleToMySaved();
             NavigationUI.clickButtonUseText("places auth close");
+        }else {
+            ArticlePageObject.addArticleToMySaved();
+            AuthorizationPageObject Auth = new AuthorizationPageObject(driver);
+            Auth.clickAuthButton();
+            Auth.enterLoginData(login, password);
+            Auth.submitForm();
+            ArticlePageObject.waitForTitleElement();
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            assertEquals("We are not on the same page after login",
+                    article_title1,
+                    ArticlePageObject.getArticleTitle());
+            ArticlePageObject.addArticleToMySaved();
         }
         ArticlePageObject.closeArticle();
+
         if(Platform.getInstance().isAndroid()) {
             NavigationUI.clickButtonUseText("NO THANKS");
         }
+
         SearchPageObject.initSearchInput();
 
-        if(Platform.getInstance().isAndroid()){
+        if(Platform.getInstance().isAndroid() || Platform.getInstance().isMw()){
             SearchPageObject.typeSearchLine(search_line);
         }
 
@@ -144,8 +161,10 @@ public class MyListsTests extends CoreTestCase
         if(Platform.getInstance().isAndroid()) {
             ArticlePageObject.waitForTitleElement();
             ArticlePageObject.addArticleToMyExistingList(name_of_folder);
-        } else {
+        } else if(Platform.getInstance().isIos()){
             ArticlePageObject.waitForTitleUseXpath(title2);
+            ArticlePageObject.addArticleToMySaved();
+        }else{
             ArticlePageObject.addArticleToMySaved();
         }
         ArticlePageObject.closeArticle();
@@ -162,7 +181,13 @@ public class MyListsTests extends CoreTestCase
             MyListPageObject.openFolderByName(name_of_folder);
         }
         MyListPageObject.swipeByArticleToDelete(article_title1);
-        MyListPageObject.openArticleFromMyList(article_title2);
+        if(Platform.getInstance().isAndroid() || Platform.getInstance().isIos()) {
+            MyListPageObject.openArticleFromMyList(article_title2);
+        }else {
+            SearchPageObject.initSearchInput();
+            SearchPageObject.typeSearchLine(search_line);
+            MyListPageObject.isPresentSaveArticle(article_title2);
+        }
     }
 
 }

@@ -9,7 +9,8 @@ abstract public class MyListsPageObject extends MainPageObject
             FOLDER_BY_NAME_TPL,
             ARTICLE_BY_TITLE_TPL,
             ARTICLE_TEXT_TPL,
-            REMOVE_FROM_SAVE_BUTTON;
+            REMOVE_FROM_SAVE_BUTTON,
+            ARTICLE_HREF;
     public MyListsPageObject(RemoteWebDriver driver) {
         super(driver);
     }
@@ -30,6 +31,10 @@ abstract public class MyListsPageObject extends MainPageObject
     private static String  getRemoveButtonByTitle(String article_title)
     {
         return REMOVE_FROM_SAVE_BUTTON.replace("{TITLE}", article_title);
+    }
+    private static String  getHrefByTitle(String article_title)
+    {
+        return ARTICLE_HREF.replace("{TITLE}", article_title);
     }
     /*TEMPLATES METHODS*/
 
@@ -75,6 +80,12 @@ abstract public class MyListsPageObject extends MainPageObject
             this.waitForElementAndClick(article_xpath, "Cannot find saved article: " + article_title, 15);
             String article = getArticleTitleXpath(article_title);
             this.waitForElementPresent(article, "Cannot find article title: " + article_title, 15);
+    }
+    public void isPresentSaveArticle(String title)
+    {
+        this.getHrefByTitle(title);
+        this.waitForElementPresent(ARTICLE_HREF,"Cannot find saved article (use href)", 10);
+
     }
 
 }
