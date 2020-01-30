@@ -1,18 +1,20 @@
-package lib.ui.factrories;
+package src.lib.ui.factrories;
 
-import io.appium.java_client.AppiumDriver;
 import lib.Platform;
-import lib.ui.NavigationUI;
-import lib.ui.android.AndroidNavigationUI;
-import lib.ui.ios.IOSNavigationUI;
+import src.lib.ui.android.AndroidNavigationUI;
+import src.lib.ui.ios.IOSNavigationUI;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import src.lib.ui.mobile_web.MWNavigationUI;
 
 public class NavigationUIFactory {
-    public static NavigationUI get(AppiumDriver driver){
+    public static Object get(RemoteWebDriver driver){
         if(Platform.getInstance().isAndroid()) {
             return new AndroidNavigationUI(driver);
         }
-        else {
+        else if(Platform.getInstance().isIos()){
             return new IOSNavigationUI(driver);
+        }else {
+            return new MWNavigationUI(driver);
         }
     }
 }

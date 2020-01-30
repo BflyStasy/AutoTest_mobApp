@@ -1,7 +1,8 @@
-package lib.ui.ios;
+package src.lib.ui.ios;
 
 import io.appium.java_client.AppiumDriver;
-import lib.ui.SearchPageObject;
+import src.lib.ui.SearchPageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class IOSSearchPageObject extends SearchPageObject {
 
@@ -15,7 +16,7 @@ public class IOSSearchPageObject extends SearchPageObject {
         SEARCH_INPUT_ID = "xpath://XCUIElementTypeApplication[@name='Wikipedia']/XCUIElementTypeWindow[1]/XCUIElementTypeOther[2]/XCUIElementTypeOther/XCUIElementTypeOther[1]/XCUIElementTypeSearchField";
         SEARCH_LIST_RESULT = "id:org.wikipedia:id/page_list_item_title";
     }
-    public IOSSearchPageObject(AppiumDriver driver) {
+    public IOSSearchPageObject(RemoteWebDriver driver) {
         super(driver);
     }
 }

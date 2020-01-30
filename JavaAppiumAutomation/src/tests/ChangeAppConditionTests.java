@@ -1,13 +1,13 @@
-package tests;
+package src.tests;
 
 import lib.CoreTestCase;
 import lib.Platform;
-import lib.ui.ArticlePageObject;
-import lib.ui.NavigationUI;
-import lib.ui.SearchPageObject;
-import lib.ui.factrories.ArticlePageObjectFactory;
-import lib.ui.factrories.NavigationUIFactory;
-import lib.ui.factrories.SearchPageObjectFactory;
+import src.lib.ui.ArticlePageObject;
+import src.lib.ui.NavigationUI;
+import src.lib.ui.SearchPageObject;
+import src.lib.ui.factrories.ArticlePageObjectFactory;
+import src.lib.ui.factrories.NavigationUIFactory;
+import src.lib.ui.factrories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class ChangeAppConditionTests extends CoreTestCase
@@ -15,13 +15,16 @@ public class ChangeAppConditionTests extends CoreTestCase
     @Test
     public void testChangeScreenOrientationOnSearchResults() //Lesson 3
     {
+        if(Platform.getInstance().isMw()){
+            return;
+        }
         String button_skip;
         if(Platform.getInstance().isAndroid()){
             button_skip = "SKIP";
         }else{
             button_skip = "Skip";
         }
-        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+        NavigationUI NavigationUI = (src.lib.ui.NavigationUI) NavigationUIFactory.get(driver);
         NavigationUI.clickButtonUseText(button_skip);
 
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
@@ -49,13 +52,16 @@ public class ChangeAppConditionTests extends CoreTestCase
     @Test
     public void testCheckArticleInBackground() //Lesson 3
     {
+        if(Platform.getInstance().isMw()){
+            return;
+        }
         String button_skip;
         if(Platform.getInstance().isAndroid()){
             button_skip = "SKIP";
         }else{
             button_skip = "Skip";
         }
-        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+        NavigationUI NavigationUI = (src.lib.ui.NavigationUI) NavigationUIFactory.get(driver);
         NavigationUI.clickButtonUseText(button_skip);
 
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);

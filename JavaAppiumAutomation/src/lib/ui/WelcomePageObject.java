@@ -1,6 +1,7 @@
-package lib.ui;
+package src.lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class WelcomePageObject extends MainPageObject {
 
@@ -11,7 +12,7 @@ public class WelcomePageObject extends MainPageObject {
         STEP_LEARN_MORE_ABOUT_DATA_COLLECTED_LINK = "id:Learn more about data collected",
         NEXT_LINK = "id:Next",
         GET_STARTED_BUTTON = "id:Get started";
-    public WelcomePageObject(AppiumDriver driver) {
+    public WelcomePageObject(RemoteWebDriver driver) {
         super(driver);
     }
 

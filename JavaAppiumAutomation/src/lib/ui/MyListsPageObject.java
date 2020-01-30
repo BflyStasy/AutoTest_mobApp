@@ -1,15 +1,16 @@
-package lib.ui;
+package src.lib.ui;
 
-import io.appium.java_client.AppiumDriver;
 import lib.Platform;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class MyListsPageObject extends MainPageObject
 {
     protected static String
             FOLDER_BY_NAME_TPL,
             ARTICLE_BY_TITLE_TPL,
-            ARTICLE_TEXT_TPL;
-    public MyListsPageObject(AppiumDriver driver) {
+            ARTICLE_TEXT_TPL,
+            REMOVE_FROM_SAVE_BUTTON;
+    public MyListsPageObject(RemoteWebDriver driver) {
         super(driver);
     }
 
@@ -25,7 +26,10 @@ abstract public class MyListsPageObject extends MainPageObject
     private static String getArticleTitleXpath(String article_title)
     {
         return ARTICLE_TEXT_TPL.replace("{TITLE}", article_title);
-
+    }
+    private static String  getRemoveButtonByTitle(String article_title)
+    {
+        return REMOVE_FROM_SAVE_BUTTON.replace("{TITLE}", article_title);
     }
     /*TEMPLATES METHODS*/
 
@@ -49,7 +53,16 @@ abstract public class MyListsPageObject extends MainPageObject
     {
         this.waitForArticleToAppearByTitle(article_title);
         String article_xpath = getSavedArticleXpathByTitle(article_title);
-        this.swipeElementToLeft(article_xpath, "Cannot find saved article: " + article_title);
+        if(Platform.getInstance().isIos() || Platform.getInstance().isAndroid()) {
+            this.swipeElementToLeft(article_xpath, "Cannot find saved article: " + article_title);
+        }else {
+            String remove_locator = getRemoveButtonByTitle(article_title);
+            this.waitForElementAndClick(
+                    remove_locator,
+                    "Cannot click button for remove saved article",
+                    10);
+            driver.navigate().refresh();
+        }
         if(Platform.getInstance().isIos()){
             this.clickElementToTheRightUpperCorner(article_xpath, "Cannot find saved article: " + article_title);
         }
@@ -63,4 +76,5 @@ abstract public class MyListsPageObject extends MainPageObject
             String article = getArticleTitleXpath(article_title);
             this.waitForElementPresent(article, "Cannot find article title: " + article_title, 15);
     }
+
 }

@@ -1,7 +1,8 @@
-package lib.ui.android;
+package src.lib.ui.android;
 
 import io.appium.java_client.AppiumDriver;
-import lib.ui.ArticlePageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import src.lib.ui.ArticlePageObject;
 
 public class AndroidArticlePageObject extends ArticlePageObject
 {
@@ -17,8 +18,8 @@ public class AndroidArticlePageObject extends ArticlePageObject
         CLOSE_ARTICLE = "xpath://*[@content-desc='Navigate up']";
         LOCATOR_PAGE = "xpath://*[@resource-id='content']";
     }
-    public AndroidArticlePageObject(AppiumDriver driver)
+    public AndroidArticlePageObject(RemoteWebDriver driver)
     {
-        super(driver);
+        super((AppiumDriver) driver);
     }
 }

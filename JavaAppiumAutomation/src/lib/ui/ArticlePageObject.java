@@ -1,8 +1,8 @@
-package lib.ui;
+package src.lib.ui;
 
-import io.appium.java_client.AppiumDriver;
 import lib.Platform;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class ArticlePageObject extends MainPageObject
 {
@@ -17,9 +17,10 @@ abstract public class ArticlePageObject extends MainPageObject
             MY_LIST_OK_BUTTON,
             CLOSE_ARTICLE,
             LOCATOR_PAGE,
+            OPTIONS_REMOVE_FROM_MY_LIST_BUTTON,
             BUTTON_CLOSE;
 
-    public ArticlePageObject(AppiumDriver driver) {
+    public ArticlePageObject(RemoteWebDriver driver) {
         super(driver);
     }
     /*TEMPLATES METHODS*/
@@ -43,8 +44,10 @@ abstract public class ArticlePageObject extends MainPageObject
         WebElement title_element = waitForTitleElement();
         if(Platform.getInstance().isAndroid()){
         return title_element.getAttribute("text");
-        }else {
+        }else if(Platform.getInstance().isIos()){
             return title_element.getAttribute("name");
+        }else {
+            return title_element.getText();
         }
     }
     public String getArticleTitleUseXpath(String text_title)
@@ -56,8 +59,10 @@ abstract public class ArticlePageObject extends MainPageObject
     {
         if(Platform.getInstance().isAndroid()) {
             this.swipeUpToFindElement(FOOTER_ELEMENT, "Cannot find the end of the article.", 60);
-        } else {
+        } else if(Platform.getInstance().isIos()){
             this.swipeUpTitleElementAppear(FOOTER_ELEMENT, "Cannot find the end of the article.", 60);
+        } else {
+            this.scrollWebPageTotleElementNotVisible(FOOTER_ELEMENT,"Cannot find the end of the article.",60);
         }
     }
     public void addArticleToMyList(String name_of_folder)
@@ -69,14 +74,43 @@ abstract public class ArticlePageObject extends MainPageObject
         this.waitForElementAndSendKeys(MY_LIST_NEW_INPUT, name_of_folder, "Cannot find input field", 7);
         this.waitForElementAndClick(MY_LIST_OK_BUTTON, "Cannot find button 'OK'", 10);
     }
-    public void addArticleToMySaved()
-    {
+    public void addArticleToMySaved() {
+        //this.waitForElementAndClick(MENU_BOOKMARK, "Cannot find button 'Save for later'",15);
+        if(Platform.getInstance().isMw()){
+            removeArticleFromSavedIfItAdd();
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         this.waitForElementAndClick(MENU_BOOKMARK, "Cannot find button 'Save for later'",15);
-        //this.waitForElementAndClick(BUTTON_CLOSE, "Cannot find button 'places auth close'",10);
+    }
+    public void removeArticleFromSavedIfItAdd(){
+        if(this.isElementPresent(OPTIONS_REMOVE_FROM_MY_LIST_BUTTON)){
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            this.waitForElementAndClick(
+                    OPTIONS_REMOVE_FROM_MY_LIST_BUTTON,
+                    "cannot find and click button to remove an article from saved",
+                    5);
+           this.waitForElementPresent(
+                    MENU_BOOKMARK,
+                    "Cannot find button to add an article to saved list after removing it from this list before",
+                    5);
+        }
     }
     public void closeArticle()
     {
-        this.waitForElementAndClick(CLOSE_ARTICLE,"Cannot find close button", 10);
+        if(!Platform.getInstance().isMw()){
+            this.waitForElementAndClick(CLOSE_ARTICLE,"Cannot find close button", 10);
+        }else {
+            System.out.println("Method closeArticle() does nothing for platform " + Platform.getInstance().getPlatformVar());
+        }
+
     }
     public void addArticleToMyExistingList(String name_of_folder)
     {
@@ -87,11 +121,11 @@ abstract public class ArticlePageObject extends MainPageObject
     }
     public void findArticleAttributeByXpath(String attribute)
     {
-        if(Platform.getInstance().isAndroid()) {
-            this.assertElementPresent(LOCATOR_PAGE, "Cannot open article", "Cannot find title article", attribute);
-        } else {
+        if(Platform.getInstance().isIos()) {
             this.assertElementPresent(TITLE_ID, "Cannot open article", "Cannot find title article", attribute);
 
+        } else {
+            this.assertElementPresent(LOCATOR_PAGE, "Cannot open article", "Cannot find title article", attribute);
         }
     }
 }

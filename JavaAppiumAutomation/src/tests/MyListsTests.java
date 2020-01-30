@@ -1,31 +1,31 @@
-package tests;
+package src.tests;
 
 import lib.CoreTestCase;
 import lib.Platform;
-import lib.ui.ArticlePageObject;
-import lib.ui.MyListsPageObject;
-import lib.ui.NavigationUI;
-import lib.ui.SearchPageObject;
-import lib.ui.factrories.ArticlePageObjectFactory;
-import lib.ui.factrories.MyListsPageObjectFactory;
-import lib.ui.factrories.NavigationUIFactory;
-import lib.ui.factrories.SearchPageObjectFactory;
+import src.lib.ui.*;
+import src.lib.ui.factrories.ArticlePageObjectFactory;
+import src.lib.ui.factrories.MyListsPageObjectFactory;
+import src.lib.ui.factrories.NavigationUIFactory;
+import src.lib.ui.factrories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class MyListsTests extends CoreTestCase
 {
     private static final String name_of_folder = "Learning programming";
+    private static final String login = "BflyMariposa";
+    private static final String password = "Stasy1988";
     @Test
     public void testSaveFirstArticleToMyList() //Lesson 3
     {
         String button_skip;
+        NavigationUI NavigationUI = (src.lib.ui.NavigationUI) NavigationUIFactory.get(driver);
         if(Platform.getInstance().isAndroid()){
             button_skip = "SKIP";
-        }else{
+            NavigationUI.clickButtonUseText(button_skip);
+        }else if(Platform.getInstance().isIos()){
             button_skip = "Skip";
+            NavigationUI.clickButtonUseText(button_skip);
         }
-        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
-        NavigationUI.clickButtonUseText(button_skip);
 
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         SearchPageObject.initSearchInput();
@@ -34,33 +34,56 @@ public class MyListsTests extends CoreTestCase
         String search_line_result;
         if(Platform.getInstance().isAndroid()){
             search_line_result = "Java (programming language)";
-        }else{
+        }else if(Platform.getInstance().isIos()){
             search_line_result = "Java (programming language)\nObject-oriented programming language";
+        }else{
+            search_line_result ="Object-oriented programming language";
         }
         SearchPageObject.clickByArticleWithSubstring(search_line_result);
 
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         ArticlePageObject.waitForTitleElement();
-        //String article_title = "Java (programming language)";//*/ArticlePageObject.getArticleTitle();
+        String article_title = "Java (programming language)";
 
         if(Platform.getInstance().isAndroid()) {
             ArticlePageObject.addArticleToMyList(name_of_folder);
-        } else {
+        } else if(Platform.getInstance().isIos()){
             ArticlePageObject.addArticleToMySaved();
             NavigationUI.clickButtonUseText("places auth close");
+        }else {
+            ArticlePageObject.addArticleToMySaved();
+            AuthorizationPageObject Auth = new AuthorizationPageObject(driver);
+            Auth.clickAuthButton();
+            Auth.enterLoginData(login, password);
+            Auth.submitForm();
+            ArticlePageObject.waitForTitleElement();
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            assertEquals("We are not on the same page after login",
+                    article_title,
+                    ArticlePageObject.getArticleTitle());
+            ArticlePageObject.addArticleToMySaved();
         }
         ArticlePageObject.closeArticle();
 
         if(Platform.getInstance().isAndroid()) {
             NavigationUI.clickButtonUseText("NO THANKS");
         }
+        NavigationUI.openNavigation();
         NavigationUI.clickMyLists();
 
         MyListsPageObject MyListPageObject = MyListsPageObjectFactory.get(driver);
         if(Platform.getInstance().isAndroid()){
             MyListPageObject.openFolderByName(name_of_folder);
         }
-        MyListPageObject.swipeByArticleToDelete(search_line_result);
+        if(Platform.getInstance().isMw()){
+            MyListPageObject.swipeByArticleToDelete(article_title);
+        } else {
+            MyListPageObject.swipeByArticleToDelete(search_line_result);
+        }
     }
     @Test
     public void testSaveTwoArticlesToListAndDeleteOneArticle() //Lesson 3 Ex.5
@@ -71,18 +94,24 @@ public class MyListsTests extends CoreTestCase
         String title1 = "Java (programming language)";
         String title2 = "JavaScript";
         String button_skip;
+        NavigationUI NavigationUI = (src.lib.ui.NavigationUI) NavigationUIFactory.get(driver);
+
         if(Platform.getInstance().isAndroid()){
             button_skip = "SKIP";
             article_title1 = "Java (programming language)";
             article_title2 = "JavaScript";
-        }else{
+            NavigationUI.clickButtonUseText(button_skip);
+
+        }else if(Platform.getInstance().isIos()){
             article_title1 = "Java (programming language)\nObject-oriented programming language";
             article_title2 = "JavaScript\nProgramming language";
             button_skip = "Skip";
+            NavigationUI.clickButtonUseText(button_skip);
+        }else{
+            article_title1 = "Java (programming language)";
+            article_title2 = "JavaScript";
         }
 
-        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
-        NavigationUI.clickButtonUseText(button_skip);
 
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         SearchPageObject.initSearchInput();
@@ -95,7 +124,7 @@ public class MyListsTests extends CoreTestCase
         if(Platform.getInstance().isAndroid()) {
             ArticlePageObject.waitForTitleElement();
             ArticlePageObject.addArticleToMyList(name_of_folder);
-        } else {
+        } else if(Platform.getInstance().isIos()){
             ArticlePageObject.waitForTitleUseXpath(title1);
             ArticlePageObject.addArticleToMySaved();
             NavigationUI.clickButtonUseText("places auth close");

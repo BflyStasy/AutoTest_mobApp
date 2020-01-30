@@ -1,7 +1,8 @@
-package lib.ui.ios;
+package src.lib.ui.ios;
 
 import io.appium.java_client.AppiumDriver;
-import lib.ui.MyListsPageObject;
+import src.lib.ui.MyListsPageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class IOSMyListsPageObject extends MyListsPageObject {
     static {
@@ -9,7 +10,7 @@ public class IOSMyListsPageObject extends MyListsPageObject {
         ARTICLE_TEXT_TPL = "id:{TITLE}";
     }
 
-    public IOSMyListsPageObject(AppiumDriver driver) {
+    public IOSMyListsPageObject(RemoteWebDriver driver) {
         super(driver);
     }
 }
